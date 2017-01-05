@@ -5,11 +5,16 @@
 #include <cmath>
 #include "MemoryManager.h"
 #include "MemPool.h"
-MemoryManager::MemoryManager(size_t size): _pool(MemPool::getInstance(size)),
-                                           _allocatedMem(new unordered_map<char*,size_t>() ),
-                                           _freeMap(new map<size_t ,set<FreeNode*>>()){}
+#include "FreeNode.h"
+
+MemoryManager::MemoryManager(size_t size){
+    _pool=MemPool::getInstance(size);
+}
 
 size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
+    if(memSizeBit<=MIN_MEM_SIZE){
+        return MIN_MEM_SIZE;
+    }
     return (size_t)pow(2.0,ceil(log2(memSizeBit)));
 }
 
@@ -31,3 +36,32 @@ char *MemoryManager::newMem(size_t memSizeBit) {
 
     return currentLocation;
 }
+void MemoryManager::deleteMem(char *add) {
+    size_t elemSize=_allocatedMem->erase(add);
+    FreeNode* fn=new FreeNode(elemSize,add);
+    auto iter=_freeMap->find(elemSize);
+    if ( iter ==_freeMap->end() ) {
+        // not found
+        set<FreeNode*>* freeSet=new set<FreeNode*>();
+        freeSet->insert(fn);
+        _freeMap->insert(make_pair(elemSize,*freeSet));
+    } else {
+        iter->second.insert(fn);
+    }
+}
+
+
+unordered_map<char *, size_t> *MemoryManager::get_allocatedMem() {
+    return _allocatedMem;
+}
+
+map<size_t, set<FreeNode *>> *MemoryManager::get_freeMap() {
+    return _freeMap;
+}
+
+//initilize static members
+unordered_map<char*,size_t> *MemoryManager::_allocatedMem= new unordered_map<char*,size_t>();
+map<size_t ,set<FreeNode*>> *MemoryManager::_freeMap= new map<size_t ,set<FreeNode*>>();
+MemPool *MemoryManager::_pool=nullptr;
+
+

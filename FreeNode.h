@@ -7,6 +7,7 @@
 
 
 #include <glob.h>
+#include <ostream>
 
 class FreeNode {
 public:
@@ -15,6 +16,8 @@ public:
     size_t getMemSize() const;
 
     char *getMemAdd() const;
+
+    friend std::ostream &operator<<(std::ostream &os, const FreeNode &node);
 
 private:
     size_t memSize;

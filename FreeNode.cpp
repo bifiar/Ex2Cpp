@@ -14,3 +14,8 @@ char *FreeNode::getMemAdd() const {
     return memAdd;
 }
 
+std::ostream &operator<<(std::ostream &os, const FreeNode &node) {
+    os << "memSize: " << node.memSize << " memAdd: " << (void*)node.memAdd;
+    return os;
+}
+

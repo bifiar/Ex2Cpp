@@ -44,5 +44,10 @@ void MemPool::set_currentLocation(char *_currentLocation) {
 size_t MemPool::get_poolSize() const {
     return _poolSize;
 }
+MemPool *MemPool::getInstance() {
+    return _memPoolInstance;
+}
 MemPool *MemPool::_memPoolInstance= nullptr;
+
+
 

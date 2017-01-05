@@ -10,6 +10,7 @@ class MemPool {
 
 public:
     static MemPool* getInstance(size_t poolSize);
+    static MemPool* getInstance();
     size_t  get_totalByteInUse() const;
     char *get_currentLocation() const;
     void set_totalByteInUse(size_t _totalByteInUse);
