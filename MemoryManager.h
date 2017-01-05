@@ -10,20 +10,27 @@
 #include <unordered_map>
 #include <set>
 #include <map>
-#include "MemPool.h"
+#include <iostream>
 
 
+class MemPool;
 class FreeNode;
 using namespace std;
 class MemoryManager {
+public:
+    MemoryManager(size_t size);
+    static char* newMem(size_t memSizeBit);
 
 
+    static size_t normalizeTwoPower(size_t memSizeBit); // is public only for test
 private:
-    unordered_map<char*,size_t> _allocatedMem;
-    map<size_t ,set<FreeNode>> _freeMap;
-    MemPool _pool;
+    static unordered_map<char*,size_t>* _allocatedMem;
+    static map<size_t ,set<FreeNode*>>* _freeMap;
+    static MemPool* _pool;
+
 
 };
+
 
 
 #endif //EX2CPP_MEMORYMANAGER_H

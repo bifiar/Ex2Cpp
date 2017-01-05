@@ -1,9 +1,9 @@
 #include <iostream>
 #include "MemPool.h"
+#include "MemoryManager.h"
+
 using namespace std;
 int main() {
-    MemPool* memory=MemPool::getInstance(1000);
-    cout<<memory->get_poolSize()<<endl;
-    MemPool* memory2=MemPool::getInstance(2000);
-    cout<<memory2->get_poolSize()<<endl;
+    MemoryManager* mm=new MemoryManager(1000);
+    cout<<mm->normalizeTwoPower(30)<<endl;
 }

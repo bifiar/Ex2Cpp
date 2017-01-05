@@ -25,7 +25,7 @@ MemPool *MemPool::getInstance(size_t poolSize) {
     return _memPoolInstance;
 }
 
-int MemPool::get_totalByteInUse() const {
+size_t MemPool::get_totalByteInUse() const {
     return _totalByteInUse;
 }
 
@@ -33,7 +33,7 @@ char *MemPool::get_currentLocation() const {
     return _currentLocation;
 }
 
-void MemPool::set_totalByteInUse(int _totalByteInUse) {
+void MemPool::set_totalByteInUse(size_t _totalByteInUse) {
     MemPool::_totalByteInUse = _totalByteInUse;
 }
 
