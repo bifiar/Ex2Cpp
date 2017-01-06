@@ -16,11 +16,11 @@ size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
     if(memSizeBit<=MIN_MEM_SIZE){
         return MIN_MEM_SIZE;
     }
-    return (size_t)pow(2.0,ceil(log2(memSizeBit)));
+    return (size_t)pow(POW_BASE,ceil(log2(memSizeBit)));
 }
 
 char *MemoryManager::newMem(size_t memSizeBit) {
-    size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normelize to 2^x
+    size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normalize to 2^x
     char* memToGive=getMemFromFreeList(sizeOnBits);//check if there is place on the free list
     if(!memToGive) {
         size_t byteInuse = _pool->get_totalByteInUse();
@@ -30,7 +30,6 @@ char *MemoryManager::newMem(size_t memSizeBit) {
              memToGive = _pool->get_currentLocation();
             _pool->set_currentLocation(memToGive + sizeOnBits);
             _pool->set_totalByteInUse(byteInuse + sizeOnBits);
-
             _allocatedMem->insert(make_pair(memToGive, sizeOnBits)); // save header on allocated mem
         }
     }
@@ -40,7 +39,7 @@ char *MemoryManager::newMem(size_t memSizeBit) {
 }
 void MemoryManager::deleteMem(char *add) {//TODO Memory leak
     size_t elemSize=0;
-    char* toDelete=0;
+    char* toDelete= nullptr;
     //size_t elemSize=_allocatedMem->erase(add);
     auto itr = _allocatedMem->begin();
     while (itr != _allocatedMem->end()) {
@@ -56,9 +55,10 @@ void MemoryManager::deleteMem(char *add) {//TODO Memory leak
     auto iter=_freeMap->find(elemSize);
     if ( iter ==_freeMap->end() ) {
         // not found
-        set<FreeNode*>* freeSet=new set<FreeNode*>();
+        set<FreeNode*,APtrComp>* freeSet=new set<FreeNode*,APtrComp>();
         freeSet->insert(fn);
         _freeMap->insert(make_pair(elemSize,*freeSet));
+        delete freeSet;//delete fn;
     } else {
         iter->second.insert(fn);
     }
@@ -69,7 +69,7 @@ unordered_map<char *, size_t> *MemoryManager::get_allocatedMem() {
     return _allocatedMem;
 }
 
-map<size_t, set<FreeNode *>> *MemoryManager::get_freeMap() {
+map<size_t, set<FreeNode *,APtrComp>>* MemoryManager::get_freeMap() {
     return _freeMap;
 }
 char *MemoryManager::getMemFromFreeList(size_t memSize) {
@@ -87,7 +87,7 @@ char *MemoryManager::getMemFromFreeList(size_t memSize) {
 }
 //initilize static members
 unordered_map<char*,size_t> *MemoryManager::_allocatedMem= new unordered_map<char*,size_t>();
-map<size_t ,set<FreeNode*>> *MemoryManager::_freeMap= new map<size_t ,set<FreeNode*>>();
+map<size_t ,set<FreeNode*,APtrComp>> *MemoryManager::_freeMap= new map<size_t ,set<FreeNode*,APtrComp>>();
 MemPool *MemoryManager::_pool=nullptr;
 
 

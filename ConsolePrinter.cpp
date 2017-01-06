@@ -15,7 +15,7 @@ void ConsolePrinter::printMap(unordered_map<char *, size_t> *allocatedMem) {
 
 }
 
-void ConsolePrinter::printMapSet(map<size_t, set<FreeNode *>> *freeMap) {
+void ConsolePrinter::printMapSet(map<size_t, set<FreeNode*,APtrComp>> *freeMap) {
     for (auto iter= freeMap->begin(); iter != freeMap->end(); iter++)
     {
         cout << "Key: " << iter->first << endl << "Values:" << endl;
