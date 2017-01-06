@@ -10,6 +10,7 @@
 #include <ostream>
 
 class FreeNode {
+
 public:
     FreeNode(size_t memSize, char *memAdd);
 

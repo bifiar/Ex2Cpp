@@ -21,7 +21,7 @@ int main() {
     MemoryManager::deleteMem(mm2);MemoryManager::deleteMem(mm3);MemoryManager::deleteMem(mm4);
     cout<<"after deleting.... "<<endl;
     ConsolePrinter::printMap(allocatedMem);
-    map<size_t ,set<FreeNode*,APtrComp>>* freeMap=mm->get_freeMap();
+    map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* freeMap=mm->get_freeMap();
     cout<<"free map:"<<endl;
     //print freelist map
     ConsolePrinter::printMapSet(freeMap);

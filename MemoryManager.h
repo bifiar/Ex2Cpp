@@ -27,12 +27,12 @@ public:
 
     static unordered_map<char *, size_t> *get_allocatedMem();
 
-    static map<size_t, set<FreeNode *,APtrComp>> *get_freeMap();
+    static map<size_t, set<FreeNode *,FreeNodeCompAdd>> *get_freeMap();
 
 private:
 
     static unordered_map<char*,size_t>* _allocatedMem;
-    static map<size_t ,set<FreeNode*,APtrComp>>* _freeMap;
+    static map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* _freeMap;
     static MemPool* _pool;
 
     static char* getMemFromFreeList(size_t memSize);

@@ -13,7 +13,7 @@
 #include <map>
 
 using namespace std;
-struct APtrComp
+struct FreeNodeCompAdd
 {
     bool operator()(const FreeNode* lhs, const FreeNode* rhs) const  {
         return (int)(lhs->getMemAdd() - rhs->getMemAdd()) < 0;
@@ -22,7 +22,7 @@ struct APtrComp
 class ConsolePrinter {
 public:
     static void printMap(unordered_map<char*,size_t>* allocatedMem);
-    static void printMapSet(map<size_t ,set<FreeNode*,APtrComp>>* freeMap);
+    static void printMapSet(map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* freeMap);
 
 private:
 
