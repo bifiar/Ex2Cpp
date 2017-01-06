@@ -28,10 +28,13 @@ public:
     static map<size_t, set<FreeNode *>> *get_freeMap();
 
 private:
-    static size_t normalizeTwoPower(size_t memSizeBit);
+
     static unordered_map<char*,size_t>* _allocatedMem;
     static map<size_t ,set<FreeNode*>>* _freeMap;
     static MemPool* _pool;
+
+    static char* getMemFromFreeList(size_t memSize);
+    static size_t normalizeTwoPower(size_t memSizeBit);
 
 
 };
