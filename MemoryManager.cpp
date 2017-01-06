@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <cstring>
 #include "MemoryManager.h"
 #include "MemPool.h"
 #include "FreeNode.h"
@@ -36,8 +37,20 @@ char *MemoryManager::newMem(size_t memSizeBit) {
 
     return currentLocation;
 }
-void MemoryManager::deleteMem(char *add) {
-    size_t elemSize=_allocatedMem->erase(add);
+void MemoryManager::deleteMem(char *add) {//TODO Memory leak
+    size_t elemSize=0;
+    char* toDelete=0;
+    //size_t elemSize=_allocatedMem->erase(add);
+    auto itr = _allocatedMem->begin();
+    while (itr != _allocatedMem->end()) {
+        if (itr->first==add) {
+            elemSize=itr->second;
+             _allocatedMem->erase(itr++);
+
+        } else {
+            ++itr;
+        }
+    }
     FreeNode* fn=new FreeNode(elemSize,add);
     auto iter=_freeMap->find(elemSize);
     if ( iter ==_freeMap->end() ) {
