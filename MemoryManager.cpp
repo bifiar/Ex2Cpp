@@ -23,13 +23,13 @@ char *MemoryManager::newMem(size_t memSizeBit) {
     size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normalize to 2^x
     char* memToGive=getMemFromFreeList(sizeOnBits);//check if there is place on the free list
     if(!memToGive) {
-        size_t byteInuse = _pool->get_totalByteInUse();
-        if (_pool->get_poolSize() < byteInuse + sizeOnBits) {// if out of memory
+        size_t bitInUse = _pool->get_totalBitUse();
+        if (_pool->get_poolSize() < bitInUse + sizeOnBits) {// if out of memory
             return nullptr;
         } else {
              memToGive = _pool->get_currentLocation();
             _pool->set_currentLocation(memToGive + sizeOnBits);
-            _pool->set_totalByteInUse(byteInuse + sizeOnBits);
+            _pool->set_totalBitUse(bitInUse + sizeOnBits);
             _allocatedMem->insert(make_pair(memToGive, sizeOnBits)); // save header on allocated mem
         }
     }
@@ -80,7 +80,7 @@ char *MemoryManager::getMemFromFreeList(size_t memSize) {
     } else {
         FreeNode* memFromFreeList=(*((iter->second).begin()));
        char* mmAdd=(*((iter->second).begin()))->getMemAdd();
-        (iter->second).erase(memFromFreeList);
+        (iter->second).erase(memFromFreeList);//TODO insert to allocMem
        return mmAdd;
     }
 

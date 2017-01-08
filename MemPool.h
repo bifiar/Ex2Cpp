@@ -11,9 +11,9 @@ class MemPool {
 public:
     static MemPool* getInstance(size_t poolSize);
     static MemPool* getInstance();
-    size_t  get_totalByteInUse() const;
+    size_t  get_totalBitUse() const;
     char *get_currentLocation() const;
-    void set_totalByteInUse(size_t _totalByteInUse);
+    void set_totalBitUse(size_t _totalBitUse);
     void set_currentLocation(char *_currentLocation);
     size_t get_poolSize() const;
 
@@ -22,7 +22,7 @@ public:
 private:
 MemPool(size_t poolSize);
 size_t  _poolSize;
-size_t _totalByteInUse;
+size_t _totalBitUse;
 char* _pool;
 char* _currentLocation;
 static MemPool* _memPoolInstance;

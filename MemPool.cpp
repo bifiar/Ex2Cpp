@@ -8,8 +8,8 @@
 #include <iostream>
 
 using namespace std;
-MemPool::MemPool(size_t poolSize) : _totalByteInUse(0),_poolSize(poolSize) {
-    _pool=(char*) malloc(poolSize* sizeof(char));
+MemPool::MemPool(size_t poolSize) : _totalBitUse(0),_poolSize(poolSize) {
+    _pool=(char*) malloc(poolSize);
     _currentLocation=_pool;
 }
 
@@ -25,16 +25,16 @@ MemPool *MemPool::getInstance(size_t poolSize) {
     return _memPoolInstance;
 }
 
-size_t MemPool::get_totalByteInUse() const {
-    return _totalByteInUse;
+size_t MemPool::get_totalBitUse() const {
+    return _totalBitUse;
 }
 
 char *MemPool::get_currentLocation() const {
     return _currentLocation;
 }
 
-void MemPool::set_totalByteInUse(size_t _totalByteInUse) {
-    MemPool::_totalByteInUse = _totalByteInUse;
+void MemPool::set_totalBitUse(size_t _totalBitUse) {
+    MemPool::_totalBitUse = _totalBitUse;
 }
 
 void MemPool::set_currentLocation(char *_currentLocation) {
