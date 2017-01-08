@@ -6,7 +6,7 @@
 #include <cstring>
 #include "MemoryManager.h"
 #include "MemPool.h"
-#include "FreeNode.h"
+
 
 MemoryManager::MemoryManager(size_t size){
     _pool=MemPool::getInstance(size);
@@ -79,8 +79,9 @@ char *MemoryManager::getMemFromFreeList(size_t memSize) {
         return nullptr;
     } else {
         FreeNode* memFromFreeList=(*((iter->second).begin()));
+       char* mmAdd=(*((iter->second).begin()))->getMemAdd();
         (iter->second).erase(memFromFreeList);
-       return (*((iter->second).begin()))->getMemAdd();
+       return mmAdd;
     }
 
 
