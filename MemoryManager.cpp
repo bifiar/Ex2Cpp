@@ -120,22 +120,27 @@ char* MemoryManager::canMerge(size_t memSize){
             countNodes*=2;
         }else {
             FreeNode *FirstNodeAtSet = (*((iter->second).begin()));
-            if (*((iter->second).begin())) {
-                auto setSize = iter->second.size();
-                auto iterSet = iter->second.begin();
+            if(FirstNodeAtSet!=nullptr) {
+                if (*((iter->second).begin())) {
+                    auto setSize = iter->second.size();
+                    auto iterSet = iter->second.begin();
 
-                if (setSize != 0) {
-                    if (((*iterSet)->getMemSize()) * countNodes >= memSize) {
-                        //can merge!
-                        memNode = new FreeNode(memSize, FirstNodeAtSet->getMemAdd());
-                        for (int i = 0; i < countNodes; ++i) {
-                            iter->second.erase(iterSet++);
+                    if (setSize != 0) {
+                        if (((*iterSet)->getMemSize()) * countNodes >= memSize) {
+                            //can merge!
+                            memNode = new FreeNode(memSize, FirstNodeAtSet->getMemAdd());
+                            for (int i = 0; i < countNodes; ++i) {
+                                iter->second.erase(iterSet++);
+                            }
+
+                            break;
                         }
 
-                        break;
                     }
-
                 }
+            }else{
+                newSize /= 2;
+                countNodes*=2;
             }
 
         }
