@@ -5,7 +5,6 @@
 using namespace std;
 int main() {
     MemoryManager* mm=new MemoryManager(1000);
-    int a;
 
     char* mm1=mm->newMem(30);char* mm2=mm->newMem(15);char* mm3=mm->newMem(2);
     char* mm4=mm->newMem(14);char* mm5=mm->newMem(50); char* mm6=mm->newMem(80);
