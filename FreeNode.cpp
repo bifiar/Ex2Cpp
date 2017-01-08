@@ -19,3 +19,5 @@ std::ostream &operator<<(std::ostream &os, const FreeNode &node) {
     return os;
 }
 
+FreeNode::FreeNode() {}
+

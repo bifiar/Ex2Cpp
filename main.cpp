@@ -1,12 +1,15 @@
 #include <iostream>
 #include "MemoryManager.h"
-
+#define byte_size 8
 
 using namespace std;
 int main() {
-
+    //FreeNode* testNew2=(FreeNode*)(malloc(sizeof(FreeNode)));
+  //  FreeNode* test=(FreeNode*)::operator new(10) ;
     MemoryManager* mem=(MemoryManager*)malloc(sizeof(MemoryManager));
     MemoryManager* mm=new (mem) MemoryManager(10000);
+    cout<<sizeof(int)*byte_size<<endl;
+    FreeNode* test=new FreeNode[10];
 
     FreeNode* testNew=new FreeNode(12,(char*)13);
     char* mm1=new char;

@@ -5,27 +5,25 @@
 
 #include <iostream>
 #include "MemoryManager.h"
-
+#define byte_size 8
 using namespace std;
-void * operator new(std::size_t n) //throw(bad_alloc)
+void * operator new(std::size_t n) throw(bad_alloc)
 {
     std::bad_alloc exception;
-    char* pointMem=MemoryManager::newMem(n);
+    char* pointMem=MemoryManager::newMem(n*byte_size);
     if(!pointMem){
-        //throw exception;
-        return nullptr;
+        throw exception;
     }
     return pointMem;
 }
 void operator delete(void * p) throw()
 {
-  cout<<"Mother fucker  "<<p<<endl;
+    MemoryManager::deleteMem((char*)p);
 }
 
 void *operator new[](size_t s) throw(bad_alloc)
 {
-    // TODO: implement
-    return NULL;
+    return ::operator new(s*byte_size);
 }
 void operator delete[](void *p) throw()
 {
