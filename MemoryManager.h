@@ -16,11 +16,17 @@
 #include "ConsolePrinter.h"
 
 
+
 class MemPool;
 class FreeNode;
 using namespace std;
+
 class MemoryManager {
 public:
+
+
+
+
     MemoryManager(size_t size);
     static char* newMem(size_t memSizeBit);
     static void deleteMem(char* add);

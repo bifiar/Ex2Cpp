@@ -1,12 +1,3 @@
-//
-// Created by ofir on 1/3/17.
-//
-
-#ifndef EX2CPP_MYALLOCATOR_H
-#define EX2CPP_MYALLOCATOR_H
-
-
-
 #include<memory>
 #include<cstdlib>
 #include<iostream>
@@ -52,12 +43,14 @@ namespace mystd {
         inline pointer allocate(size_type cnt,
                                 typename std::allocator<void>::const_pointer = 0) {
             std::cout<<"Trying to allocate "<<cnt<<" objects in memory"<<std::endl;
-            pointer new_memory = reinterpret_cast<pointer>(::operator new(cnt * sizeof (T)));
+            pointer  memLocation = (pointer)malloc(cnt * sizeof (T)); // malloc instead of new
+            pointer new_memory = reinterpret_cast<pointer>(memLocation);
             std::cout<<"Allocated "<<cnt<<" objects in memory at location:"<<new_memory<<std::endl;
             return new_memory;
         }
         inline void deallocate(pointer p, size_type n) {
-            ::operator delete(p);
+            //  ::operator delete(p);
+            free(p); // free (p) instead of delete
             std::cout<<"Deleted "<<n<<" objects from memory"<<std::endl;
         }
         //    size
@@ -70,6 +63,7 @@ namespace mystd {
         inline void construct(pointer p, const T& t) {
             std::cout<<"Constructing at memory location:" <<p<<std::endl;
             new(p) T(t);
+            //(pointer*) malloc()
         }
         inline void destroy(pointer p) {
             std::cout<<"Destroying object at memory location:" <<p<<std::endl;
@@ -80,5 +74,3 @@ namespace mystd {
         inline bool operator!=(MyAllocator const& a) { return !operator==(a); }
     };    //    end of class MyAllocator
 } // end of namespace mystd
-
-#endif //EX2CPP_MYALLOCATOR_H
