@@ -7,12 +7,13 @@
 #include "MemoryManager.h"
 
 using namespace std;
-void * operator new(std::size_t n) throw(bad_alloc)
+void * operator new(std::size_t n) //throw(bad_alloc)
 {
     std::bad_alloc exception;
     char* pointMem=MemoryManager::newMem(n);
     if(!pointMem){
-        throw exception;
+        //throw exception;
+        return nullptr;
     }
     return pointMem;
 }

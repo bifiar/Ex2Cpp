@@ -10,6 +10,11 @@
 
 MemoryManager::MemoryManager(size_t size){
     _pool=MemPool::getInstance(size);
+    unordered_map<char*,size_t> * allocMemLoc=(unordered_map<char*,size_t> *)malloc(sizeof(unordered_map<char*,size_t>));
+    _allocatedMem=new (allocMemLoc) unordered_map<char*,size_t>();
+    map<size_t ,set<FreeNode*,FreeNodeCompAdd>> * freeMapLoc=(map<size_t ,set<FreeNode*,FreeNodeCompAdd>> *)malloc(sizeof(map<size_t ,set<FreeNode*,FreeNodeCompAdd>>));
+    _freeMap=new (freeMapLoc) map<size_t ,set<FreeNode*,FreeNodeCompAdd>>();
+
 }
 
 size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
@@ -79,16 +84,18 @@ char *MemoryManager::getMemFromFreeList(size_t memSize) {
         return nullptr;
     } else {
         FreeNode* memFromFreeList=(*((iter->second).begin()));
-       char* mmAdd=(*((iter->second).begin()))->getMemAdd();
-        (iter->second).erase(memFromFreeList);//TODO insert to allocMem
+       char* mmAdd=memFromFreeList->getMemAdd();
+        (iter->second).erase(memFromFreeList);
+        _allocatedMem->insert(make_pair(mmAdd, memSize));
+
        return mmAdd;
     }
 
 
 }
 //initilize static members
-unordered_map<char*,size_t> *MemoryManager::_allocatedMem= new unordered_map<char*,size_t>();
-map<size_t ,set<FreeNode*,FreeNodeCompAdd>> *MemoryManager::_freeMap= new map<size_t ,set<FreeNode*,FreeNodeCompAdd>>();
+unordered_map<char*,size_t> *MemoryManager::_allocatedMem= nullptr;
+map<size_t ,set<FreeNode*,FreeNodeCompAdd>> *MemoryManager::_freeMap= nullptr;
 MemPool *MemoryManager::_pool=nullptr;
 
 

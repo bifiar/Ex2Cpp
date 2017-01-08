@@ -4,11 +4,16 @@
 
 using namespace std;
 int main() {
-    MemoryManager* mm=new MemoryManager(1000);
 
-    char* mm1=mm->newMem(30);char* mm2=mm->newMem(15);char* mm3=mm->newMem(2);
-    char* mm4=mm->newMem(14);char* mm5=mm->newMem(50); char* mm6=mm->newMem(80);
-    char* mm10=mm->newMem(15);char* mm11=mm->newMem(15);char* mm12=mm->newMem(15);
+    MemoryManager* mem=(MemoryManager*)malloc(sizeof(MemoryManager));
+    MemoryManager* mm=new (mem) MemoryManager(10000);
+
+    FreeNode* testNew=new FreeNode(12,(char*)13);
+    char* mm1=new char;
+    char* mm2=new char;
+    char* mm3=new char;
+    char* mm4=new char;char* mm5=new char; char* mm6=new char;
+    char* mm10=new char;char* mm11=new char;char* mm12=new char;
     cout<<(void*)(mm2-mm1)<<endl;
     cout<<(void*)(mm1-mm2)<<endl;
     cout<<(int)(mm1-mm2)<<endl;
@@ -29,7 +34,7 @@ int main() {
     //print freelist map
     ConsolePrinter::printMapSet(freeMap);
 
-    char* mm7=mm->newMem(15);
+    char* mm7=new char;
     cout<<"after adding memo from free map(mm3)"<<endl;
     ConsolePrinter::printMapSet(freeMap);
 
