@@ -37,7 +37,7 @@ private:
 
     static char* getMemFromFreeList(size_t memSize);
     static size_t normalizeTwoPower(size_t memSizeBit);
-
+    static char* canMerge(size_t memSize);
 
 };
 

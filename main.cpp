@@ -7,9 +7,10 @@ int main() {
 
     MemoryManager* mm=new MemoryManager(1000);
 
-    char* mm1=mm->newMem(30);char* mm2=mm->newMem(15);char* mm3=mm->newMem(2);
-    char* mm4=mm->newMem(14);char* mm5=mm->newMem(50); char* mm6=mm->newMem(80);
-    char* mm10=mm->newMem(15);char* mm11=mm->newMem(15);char* mm12=mm->newMem(15);
+    char* mm1=mm->newMem(6);char* mm2=mm->newMem(6);char* mm3=mm->newMem(2);
+    char* mm4=mm->newMem(6);
+    /*char* mm5=mm->newMem(50); char* mm6=mm->newMem(80);
+    char* mm10=mm->newMem(15);char* mm11=mm->newMem(15);char* mm12=mm->newMem(15);*/
     cout<<(void*)(mm2-mm1)<<endl;
     cout<<(void*)(mm1-mm2)<<endl;
     cout<<(int)(mm1-mm2)<<endl;
@@ -21,8 +22,8 @@ int main() {
 
     ConsolePrinter::printMap(allocatedMem);
 
-    MemoryManager::deleteMem(mm2);MemoryManager::deleteMem(mm3);MemoryManager::deleteMem(mm4);
-    MemoryManager::deleteMem(mm10);MemoryManager::deleteMem(mm11);MemoryManager::deleteMem(mm12);
+  MemoryManager::deleteMem(mm1);MemoryManager::deleteMem(mm2);MemoryManager::deleteMem(mm3);
+    MemoryManager::deleteMem(mm4);//MemoryManager::deleteMem(mm11);MemoryManager::deleteMem(mm12);
     cout<<"after deleting.... "<<endl;
     ConsolePrinter::printMap(allocatedMem);
     map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* freeMap=mm->get_freeMap();
@@ -30,10 +31,11 @@ int main() {
     //print freelist map
     ConsolePrinter::printMapSet(freeMap);
 
-    char* mm7=mm->newMem(15);
+    char* mm7=mm->newMem(30);
     cout<<"after adding memo from free map(mm3)"<<endl;
     ConsolePrinter::printMapSet(freeMap);
 
     cout<<"Address mm7 is "<<(void*) mm7<<endl;
+    ConsolePrinter::printMapSet(freeMap);
 
 }
