@@ -23,7 +23,7 @@ void operator delete(void * p) throw()
 
 void *operator new[](size_t s) throw(bad_alloc)
 {
-    return ::operator new(s*byte_size);
+    return ::operator new(s);
 }
 void operator delete[](void *p) throw()
 {
