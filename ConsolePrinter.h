@@ -8,6 +8,7 @@
 
 #include <glob.h>
 #include "FreeNode.h"
+#include "sharedTypeDeffs.h"
 #include <unordered_map>
 #include <set>
 #include <map>
@@ -21,8 +22,8 @@ struct FreeNodeCompAdd
 };
 class ConsolePrinter {
 public:
-    static void printMap(unordered_map<char*,size_t>* allocatedMem);
-    static void printMapSet(map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* freeMap);
+    static void printMap(un_mapMem* allocatedMem);
+    static void printMapSet(freeMapMem* freeMap);
 
 private:
 

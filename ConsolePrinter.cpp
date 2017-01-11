@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-void ConsolePrinter::printMap(unordered_map<char *, size_t> *allocatedMem) {
+void ConsolePrinter::printMap(un_mapMem* allocatedMem) {
     for (auto iter = allocatedMem->begin(); iter != allocatedMem->end(); iter++)
     {
         cout << "Key: " <<(void*)iter->first <<" Value: " <<iter->second<< endl;
@@ -15,7 +15,7 @@ void ConsolePrinter::printMap(unordered_map<char *, size_t> *allocatedMem) {
 
 }
 
-void ConsolePrinter::printMapSet(map<size_t, set<FreeNode*,FreeNodeCompAdd>> *freeMap) {
+void ConsolePrinter::printMapSet(freeMapMem* freeMap) {
     for (auto iter= freeMap->begin(); iter != freeMap->end(); iter++)
     {
         cout << "Key: " << iter->first << endl << "Values:" << endl;
