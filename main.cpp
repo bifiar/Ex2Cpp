@@ -1,46 +1,46 @@
 #include <iostream>
 #include "MemoryManager.h"
+#include "sharedTypeDeffs.h"
+
 #define byte_size 8
 
 using namespace std;
+using namespace JVC;
 int main() {
-    //FreeNode* testNew2=(FreeNode*)(malloc(sizeof(FreeNode)));
+   //FreeNode* testNew2=(FreeNode*)(malloc(sizeof(FreeNode)));
   //  FreeNode* test=(FreeNode*)::operator new(10) ;
+
     MemoryManager* mem=(MemoryManager*)malloc(sizeof(MemoryManager));
-    MemoryManager* mm=new (mem) MemoryManager(10000);
-    cout<<sizeof(int)*byte_size<<endl;
-    FreeNode* test=new FreeNode[10];
+    MemoryManager* mm=new (mem) MemoryManager(100000);
 
-    FreeNode* testNew=new FreeNode(12,(char*)13);
-    char* mm1=new char;
-    char* mm2=new char;
-    char* mm3=new char;
-    char* mm4=new char;char* mm5=new char; char* mm6=new char;
-    char* mm10=new char;char* mm11=new char;char* mm12=new char;
-    cout<<(void*)(mm2-mm1)<<endl;
-    cout<<(void*)(mm1-mm2)<<endl;
-    cout<<(int)(mm1-mm2)<<endl;
 
-    cout<<"Address mm2 is "<<(void*) mm2<<endl;
+    char* mm11=new char;char* mm12=new char;char* mm13=new char;
+    int* mm21=new int;int* mm22=new int;int* mm23=new int;
+    double* mm31=new double;double* mm32=new double;double* mm33=new double;
+
+
+    cout<<"Address mm12 is "<<(void*) mm12<<endl;
 
     //print allocated map
-    unordered_map<char*,size_t>* allocatedMem=(mm->get_allocatedMem());
+    un_mapMem* allocatedMem=(mm->get_allocatedMem());
 
     ConsolePrinter::printMap(allocatedMem);
 
-    MemoryManager::deleteMem(mm2);MemoryManager::deleteMem(mm3);MemoryManager::deleteMem(mm4);
-    MemoryManager::deleteMem(mm10);MemoryManager::deleteMem(mm11);MemoryManager::deleteMem(mm12);
+    delete mm12;delete mm22;delete mm32;
+
     cout<<"after deleting.... "<<endl;
     ConsolePrinter::printMap(allocatedMem);
-    map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* freeMap=mm->get_freeMap();
+    freeMapMem* freeMap=mm->get_freeMap();
     cout<<"free map:"<<endl;
     //print freelist map
     ConsolePrinter::printMapSet(freeMap);
 
     char* mm7=new char;
     cout<<"after adding memo from free map(mm3)"<<endl;
+    cout<<"Free MAP"<<endl;
     ConsolePrinter::printMapSet(freeMap);
-
+    cout<<"Alloc MAP"<<endl;
+    ConsolePrinter::printMap(allocatedMem);
     cout<<"Address mm7 is "<<(void*) mm7<<endl;
 
 }
