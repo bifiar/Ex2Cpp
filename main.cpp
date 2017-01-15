@@ -77,7 +77,7 @@ int main() {
 
 
    // set<char*,size_t>* testSet2= new set<char*,size_t>();
-    //testMap->insert(make_pair(10,*testSet));
+    testMap->insert(make_pair(10,*testSet));
 
 
 
