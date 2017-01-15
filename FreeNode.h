@@ -14,6 +14,8 @@ class FreeNode {
 public:
     FreeNode(size_t memSize, char *memAdd);
 
+    FreeNode();
+
     size_t getMemSize() const;
 
     char *getMemAdd() const;

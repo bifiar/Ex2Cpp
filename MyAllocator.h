@@ -1,84 +1,70 @@
-//
-// Created by ofir on 1/3/17.
-//
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-#ifndef EX2CPP_MYALLOCATOR_H
-#define EX2CPP_MYALLOCATOR_H
+/* 
+ * File:   MyAllocator2.h
+ *
+ * Created on 8 ינואר 2017, 12:41
+ */
 
-
-
-#include<memory>
-#include<cstdlib>
-#include<iostream>
+#ifndef MyAllocator2_H
+#define MyAllocator2_H
+#include <stdlib.h>
+#include <new>
 #include <limits>
-
-namespace mystd {
-
-    template<typename T>
-    class MyAllocator{
-    public :
-        //    typedefs
-
+#include <stddef.h>
+namespace JVC {
+    template <class T>
+    struct MyAllocator {
+        typedef size_t size_type;
+        typedef ptrdiff_t difference_type;
+        typedef T* pointer;
+        typedef const T* const_pointer;
+        typedef T& reference;
+        typedef const T& const_reference;
         typedef T value_type;
-        typedef value_type* pointer;
-        typedef const value_type* const_pointer;
-        typedef value_type& reference;
-        typedef const value_type& const_reference;
-        typedef std::size_t size_type;
-        typedef std::ptrdiff_t difference_type;
 
-    public :
-        //    convert an allocator<T> to allocator<U>
+        template <class U> struct rebind { typedef MyAllocator<U> other; };
+        MyAllocator() throw() {}
+        MyAllocator(const MyAllocator&) throw() {}
 
-        template<typename U>
-        struct rebind {
-            typedef MyAllocator<U> other;
-        };
+        template <class U> MyAllocator(const MyAllocator<U>&) throw(){}
 
-    public :
-        inline explicit MyAllocator() {}
-        inline ~MyAllocator() {}
-        inline explicit MyAllocator(MyAllocator const&) {}
-        template<typename U>
-        inline explicit MyAllocator(MyAllocator<U> const&) {}
+        ~MyAllocator() throw() {}
 
-        //    address
+        pointer address(reference x) const { return &x; }
+        const_pointer address(const_reference x) const { return &x; }
 
-        inline pointer address(reference r) { return &r; }
-        inline const_pointer address(const_reference r) { return &r; }
-
-        //    memory allocation
-
-        inline pointer allocate(size_type cnt,
-                                typename std::allocator<void>::const_pointer = 0) {
-            std::cout<<"Trying to allocate "<<cnt<<" objects in memory"<<std::endl;
-            pointer new_memory = reinterpret_cast<pointer>(::operator new(cnt * sizeof (T)));
-            std::cout<<"Allocated "<<cnt<<" objects in memory at location:"<<new_memory<<std::endl;
-            return new_memory;
-        }
-        inline void deallocate(pointer p, size_type n) {
-            ::operator delete(p);
-            std::cout<<"Deleted "<<n<<" objects from memory"<<std::endl;
-        }
-        //    size
-        inline size_type max_size() const {
-            return std::numeric_limits<size_type>::max() / sizeof(T);
+        pointer allocate(size_type s, void const * = 0) {
+            if (0 == s)
+                return NULL;
+            pointer temp = (pointer)malloc(s * sizeof(T));
+            if (temp == NULL)
+                throw std::bad_alloc();
+            return temp;
         }
 
-        //    construction/destruction
-
-        inline void construct(pointer p, const T& t) {
-            std::cout<<"Constructing at memory location:" <<p<<std::endl;
-            new(p) T(t);
+        void deallocate(pointer p, size_type) {
+            free(p);
         }
-        inline void destroy(pointer p) {
-            std::cout<<"Destroying object at memory location:" <<p<<std::endl;
+
+        size_type max_size() const throw() {
+            return std::numeric_limits<size_t>::max() / sizeof(T);
+        }
+
+        void construct(pointer p, const T& val) {
+            new((void *)p) T(val);
+        }
+
+        void destroy(pointer p) {
             p->~T();
         }
+    };
+}
 
-        inline bool operator==(MyAllocator const&) { return true; }
-        inline bool operator!=(MyAllocator const& a) { return !operator==(a); }
-    };    //    end of class MyAllocator
-} // end of namespace mystd
 
-#endif //EX2CPP_MYALLOCATOR_H
+#endif /* MyAllocator2_H */
+

@@ -25,14 +25,14 @@ public:
     static char* newMem(size_t memSizeBit);
     static void deleteMem(char* add);
 
-    static unordered_map<char *, size_t> *get_allocatedMem();
+    static un_mapMem* get_allocatedMem();
 
-    static map<size_t, set<FreeNode *,FreeNodeCompAdd>> *get_freeMap();
+    static freeMapMem *get_freeMap();
 
 private:
 
-    static unordered_map<char*,size_t>* _allocatedMem;
-    static map<size_t ,set<FreeNode*,FreeNodeCompAdd>>* _freeMap;
+    static un_mapMem* _allocatedMem;
+    static freeMapMem* _freeMap;
     static MemPool* _pool;
 
     static char* getMemFromFreeList(size_t memSize);
