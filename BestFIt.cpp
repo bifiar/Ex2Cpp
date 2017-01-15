@@ -59,8 +59,8 @@ char* BestFIt::canMerge(size_t memSize){
             // auto iterForSplit=iter->second.begin();
             FreeNode* FirstNodeAtSet = (*((iter->second).begin()));
             if(FirstNodeAtSet!=nullptr) {
-                if (*((iter->second).begin())) {
-                    auto setSize = iter->second.size();
+              //  if (*((iter->second).begin())) {
+                    size_t setSize = iter->second.size();
                     auto iterSet = iter->second.begin();
                     auto iterSetAddress = iter->second.begin();
                     long adress = (long)(*iterSetAddress)->getMemAdd();//the first address in the set
@@ -87,30 +87,34 @@ char* BestFIt::canMerge(size_t memSize){
                             if(flagAdress) {//nodes by orders
                                 FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
                                 fn=new (fnlloc)FreeNode(memSize,FirstNodeAtSet->getMemAdd());
-                                //memNode = new FreeNode(memSize, FirstNodeAtSet->getMemAdd());//TODO check new
                                 for (int i = 0; i < countNodes; ++i) {
-                                    iter->second.erase(iterSet++);
+                                    iter->second.erase(iterSet++);//TODO mem leak
                                 }
                                 // _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
 
-                                break;
-                            }else{
-                                if(newSize==8){
-                                    newSize /= 2;
-                                }
+                                break; //while break after merge
                             }
-                        }else{
-                            newSize /= 2;
+//                            else{
+//                                if(newSize==MIN_MEM_SIZE){
+//                                    newSize /= 2;
+//                                }
+//                            }
                         }
+//                        else{
+//                            newSize /= 2;
+//                        }
 
                     }
-                }
-            }else{
-                newSize /= 2;
-                countNodes*=2;
+               // }
             }
+//            else{
+//               newSize /= 2;
+//                countNodes*=2;
+//            }
 
         }
+        countNodes*=2;
+        newSize /= 2;
 
     }
     if(fn!=nullptr) {
