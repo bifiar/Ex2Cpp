@@ -39,3 +39,87 @@ char *BestFIt::searchFreeMemAlgo(size_t memSizeBit) {
         return mmAdd;
     }
 }
+
+/**
+ *
+ * @param memSize
+ * @return
+ */
+char* BestFIt::canMerge(size_t memSize){
+    size_t newSize=memSize;
+    size_t countNodes=1;
+    //FreeNode* memNode= nullptr;
+    FreeNode* fn=nullptr;
+    while((newSize)>=MIN_MEM_SIZE) {
+        auto iter = _freeMap->find(newSize);
+        if (iter == _freeMap->end()) {
+            newSize /= 2;
+            countNodes*=2;
+        }else {
+            // auto iterForSplit=iter->second.begin();
+            FreeNode* FirstNodeAtSet = (*((iter->second).begin()));
+            if(FirstNodeAtSet!=nullptr) {
+                if (*((iter->second).begin())) {
+                    auto setSize = iter->second.size();
+                    auto iterSet = iter->second.begin();
+                    auto iterSetAddress = iter->second.begin();
+                    long adress = (long)(*iterSetAddress)->getMemAdd();//the first address in the set
+                    iterSetAddress++;
+                    bool flagAdress=true;
+
+                    if (setSize != 0) {
+                        if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
+
+                            for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
+
+                                adress+=((*iterSetAddress)->getMemSize());
+                                //iterSetAddress++;
+
+                                //(adress + ((*iterSetAddress)->getMemSize()))
+                                if(adress!=((long)(*iterSetAddress)->getMemAdd())){
+                                    flagAdress=false;
+                                    break;
+
+                                }
+                                iterSetAddress++;
+                            }
+
+                            if(flagAdress) {//nodes by orders
+                                FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
+                                fn=new (fnlloc)FreeNode(memSize,FirstNodeAtSet->getMemAdd());
+                                //memNode = new FreeNode(memSize, FirstNodeAtSet->getMemAdd());//TODO check new
+                                for (int i = 0; i < countNodes; ++i) {
+                                    iter->second.erase(iterSet++);
+                                }
+                                // _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
+
+                                break;
+                            }else{
+                                if(newSize==8){
+                                    newSize /= 2;
+                                }
+                            }
+                        }else{
+                            newSize /= 2;
+                        }
+
+                    }
+                }
+            }else{
+                newSize /= 2;
+                countNodes*=2;
+            }
+
+        }
+
+    }
+    if(fn!=nullptr) {
+        return fn->getMemAdd();
+    }
+//    }else{
+//        //check here for split!
+//        return split(memSize);
+//    }
+    return nullptr;
+
+}

@@ -25,6 +25,8 @@ public:
      */
     void set_freeMap(freeMapMem *_freeMap);
 
+    char* canMerge(size_t memSize);
+
 private:
     //static un_mapMem* _allocatedMem;
     freeMapMem* _freeMap;
