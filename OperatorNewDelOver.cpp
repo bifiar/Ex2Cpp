@@ -15,6 +15,7 @@ void * operator new(std::size_t n) throw(bad_alloc)
         throw exception;
     }
     return pointMem;
+
 }
 void operator delete(void * p) throw()
 {

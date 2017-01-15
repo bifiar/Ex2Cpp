@@ -14,12 +14,6 @@
 #include <map>
 
 using namespace std;
-struct FreeNodeCompAdd
-{
-    bool operator()(const FreeNode* lhs, const FreeNode* rhs) const  {
-        return (int)(lhs->getMemAdd() - rhs->getMemAdd()) < 0;
-    }
-};
 class ConsolePrinter {
 public:
     static void printMap(un_mapMem* allocatedMem);

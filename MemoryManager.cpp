@@ -10,10 +10,12 @@
 
 MemoryManager::MemoryManager(size_t size){
     _pool=MemPool::getInstance(size);
+    //NEED TO BE REMOVE
     un_mapMem * allocMemLoc=(un_mapMem *)malloc(sizeof(un_mapMem));
     _allocatedMem=new (allocMemLoc) un_mapMem();
     freeMapMem * freeMapLoc=(freeMapMem *)malloc(sizeof(freeMapMem));
     _freeMap=new (freeMapLoc) freeMapMem();
+    //NEED TO BE REMOVE END
 
 }
 
@@ -25,8 +27,13 @@ size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
 }
 
 char *MemoryManager::newMem(size_t memSizeBit) {
+
+
+
     size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normalize to 2^x
-    char* memToGive=getMemFromFreeList(sizeOnBits);//check if there is place on the free list
+
+    char* memToGive = _strategy->searchFreeMemAlgo(memSizeBit);
+
     if(!memToGive) {
         size_t bitInUse = _pool->get_totalBitUse();
         if (_pool->get_poolSize() < bitInUse + sizeOnBits) {// if out of memory
@@ -35,9 +42,11 @@ char *MemoryManager::newMem(size_t memSizeBit) {
              memToGive = _pool->get_currentLocation();
             _pool->set_currentLocation(memToGive + sizeOnBits);
             _pool->set_totalBitUse(bitInUse + sizeOnBits);
-            _allocatedMem->insert(make_pair(memToGive, sizeOnBits)); // save header on allocated mem
+
         }
     }
+        _allocatedMem->insert(make_pair(memToGive, sizeOnBits));
+
 
 
     return memToGive;
@@ -78,26 +87,17 @@ un_mapMem *MemoryManager::get_allocatedMem() {
 freeMapMem* MemoryManager::get_freeMap() {
     return _freeMap;
 }
-char *MemoryManager::getMemFromFreeList(size_t memSize) {
-    auto iter=_freeMap->find(memSize);
-    if ( iter ==_freeMap->end() ) {
-        // not found
-        return nullptr;
-    } else {
-        FreeNode* memFromFreeList=(*((iter->second).begin()));
-       char* mmAdd=memFromFreeList->getMemAdd();
-        (iter->second).erase(memFromFreeList);
-        _allocatedMem->insert(make_pair(mmAdd, memSize));
 
-       return mmAdd;
-    }
-
-
+void MemoryManager::set_strategy(FitAlgo* _strategy) {
+    MemoryManager::_strategy = _strategy;
 }
+
 //initilize static members
 un_mapMem *MemoryManager::_allocatedMem= nullptr;
 freeMapMem *MemoryManager::_freeMap= nullptr;
 MemPool *MemoryManager::_pool=nullptr;
+FitAlgo *MemoryManager::_strategy=nullptr;
+
 
 
 

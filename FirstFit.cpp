@@ -3,3 +3,8 @@
 //
 
 #include "FirstFit.h"
+
+
+char *FirstFit::searchFreeMemAlgo(size_t memSizeBit) {
+    return nullptr;
+}

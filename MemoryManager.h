@@ -14,6 +14,7 @@
 #include <map>
 #include <iostream>
 #include "ConsolePrinter.h"
+#include "FitAlgo.h"
 
 
 class MemPool;
@@ -29,13 +30,16 @@ public:
 
     static freeMapMem *get_freeMap();
 
+    static void set_strategy(FitAlgo* _strategy);
+
 private:
 
+    static FitAlgo* _strategy;
     static un_mapMem* _allocatedMem;
     static freeMapMem* _freeMap;
     static MemPool* _pool;
 
-    static char* getMemFromFreeList(size_t memSize);
+   // static char* getMemFromFreeList(size_t memSize);
     static size_t normalizeTwoPower(size_t memSizeBit);
 
 
