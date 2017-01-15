@@ -28,6 +28,7 @@ public:
     char* canMerge(size_t memSize);
 
 private:
+    setForMap::iterator isAddressSequence(setForMap currentIter,size_t numOfNodes,int* isSuccess);
     //static un_mapMem* _allocatedMem;
     freeMapMem* _freeMap;
 
