@@ -16,22 +16,36 @@ int main() {
     MemoryManager* mem=(MemoryManager*)malloc(sizeof(MemoryManager));
     MemoryManager* mm=new (mem) MemoryManager(100000);
 
-    FitAlgo* bestFitLoc = (FitAlgo*)malloc(sizeof(FitAlgo));
-    FitAlgo* bestFit = new(bestFitLoc)BestFIt(mm->get_freeMap());
+//    FitAlgo* bestFitLoc = (FitAlgo*)malloc(sizeof(FitAlgo));
+//    FitAlgo* bestFit = new(bestFitLoc)BestFIt(mm->get_freeMap());
 
     FitAlgo* firstFitLoc = (FitAlgo*)malloc(sizeof(FitAlgo));
-    FitAlgo* firstFit = new(bestFitLoc)FirstFit(mm->get_freeMap());
+    FitAlgo* firstFit = new(firstFitLoc)FirstFit(mm->get_freeMap());
 
     mm->set_strategy(firstFit);
 
-    int arr[] = { 4, 6, 8, 32, 19 } ;
-    double_linked<int>* dlist = new double_linked<int> ( arr );
+
+
+
+    double_linked<int>* dlist = new double_linked<int> ( );
     dlist->push_back( 11 );
+    dlist->push_back( 20 );
+    dlist->push_back( 33 );
+    dlist->push_back( 44);
+    dlist->push_back( 66 );
     dlist->push_front( 100 );
 
-    while(dlist->get_size()>0){
-        cout << dlist->pop_back()  << " "<<endl;
-    }
+
+//    while(dlist->get_size()>0){
+//        cout << dlist->pop_back()  << " "<<endl;
+//    }
+
+    un_mapMem* allocatedMem=(mm->get_allocatedMem());
+
+    //delete dlist;
+
+   ConsolePrinter::printMap(allocatedMem);
+
 
 
 }
