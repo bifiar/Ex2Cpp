@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/* 
- * File:   MyAllocator2.h
- *
- * Created on 8 ינואר 2017, 12:41
- */
+//
+//Created by boaz_bahat on 1/2/17.
+//
+
+
 
 #ifndef MyAllocator2_H
 #define MyAllocator2_H

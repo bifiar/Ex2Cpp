@@ -1,8 +1,6 @@
 //
-// Created by ofir on 1/11/17.
+//Created by boaz_bahat on 1/2/17.
 //
-
-
 
 
 #include <utility>
@@ -18,11 +16,11 @@ class FreeNode;
 class FreeNodeCompAdd;
 
 
-#ifndef EX2CPP_SHAREDTYPEDEFFS_H
-#define EX2CPP_SHAREDTYPEDEFFS_H
+#ifndef EX2CPP_TypeDef_H
+#define EX2CPP_TypeDef_H
 using namespace JVC;
 using namespace std;
-#endif //EX2CPP_SHAREDTYPEDEFFS_H
+#endif //EX2CPP_TypeDef_H
 
 typedef MyAllocator<FreeNode*> setAllocator;
 typedef set<FreeNode*,FreeNodeCompAdd,setAllocator> setForMap;

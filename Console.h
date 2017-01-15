@@ -1,14 +1,14 @@
 //
-// Created by ofir on 1/6/17.
+//Created by boaz_bahat on 1/2/17.
 //
 
-#ifndef EX2CPP_CONSOLEPRINTER_H
-#define EX2CPP_CONSOLEPRINTER_H
+#ifndef EX2CPP_Console_H
+#define EX2CPP_Console_H
 
 
 #include <glob.h>
 #include "FreeNode.h"
-#include "sharedTypeDeffs.h"
+#include "TypeDef.h"
 #include <unordered_map>
 #include <set>
 #include <map>
@@ -20,7 +20,8 @@ struct FreeNodeCompAdd
         return (int)(lhs->getMemAdd() - rhs->getMemAdd()) < 0;
     }
 };
-class ConsolePrinter {
+
+class Console {
 public:
     static void printMap(un_mapMem* allocatedMem);
     static void printMapSet(freeMapMem* freeMap);
@@ -30,4 +31,4 @@ private:
 };
 
 
-#endif //EX2CPP_CONSOLEPRINTER_H
+#endif //EX2CPP_Console_H
