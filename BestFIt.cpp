@@ -123,3 +123,27 @@ char* BestFIt::canMerge(size_t memSize){
     return nullptr;
 
 }
+
+
+//char *MemoryManager::getMemFromFreeList(size_t memSize) {
+//
+//    //if ( iter ==_freeMap->end() ) {
+//    // not found - need to check if we can merge Nodes
+//    char *mmAddress= nullptr;
+//    mmAddress = canMerge(memSize);
+//    if (mmAddress) {
+//        return mmAddress;
+//    } else {
+//        auto iter=_freeMap->find(memSize);
+//        if (iter !=_freeMap->end() ) {
+//            FreeNode memFromFreeList = (((iter->second).begin()));
+//            char mmAdd = (((iter->second).begin()))->getMemAdd();
+//            (iter->second).erase(memFromFreeList);//TODO insert to allocMem
+//            // _allocatedMem->insert(make_pair(mmAdd, memSize));
+//            return mmAdd;
+//        }
+//        return nullptr;
+//    }
+//
+//
+//}
