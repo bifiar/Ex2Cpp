@@ -59,58 +59,44 @@ char* BestFIt::canMerge(size_t memSize){
             // auto iterForSplit=iter->second.begin();
             FreeNode* FirstNodeAtSet = (*((iter->second).begin()));
             if(FirstNodeAtSet!=nullptr) {
-              //  if (*((iter->second).begin())) {
-                    size_t setSize = iter->second.size();
-                    auto iterSet = iter->second.begin();
-                    auto iterSetAddress = iter->second.begin();
-                    long adress = (long)(*iterSetAddress)->getMemAdd();//the first address in the set
-                    iterSetAddress++;
-                    bool flagAdress=true;
+                //  if (*((iter->second).begin())) {
+                size_t setSize = iter->second.size();
+                auto iterSet = iter->second.begin();
+                auto iterSetAddress = iter->second.begin();
+                long adress = (long)(*iterSetAddress)->getMemAdd();//the first address in the set
+                iterSetAddress++;
+                bool flagAdress=true;
 
-                    if (setSize != 0) {
-                        if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
+                if (setSize != 0) {
+                    if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
 
-                            for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
+                        for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
 
-                                adress+=((*iterSetAddress)->getMemSize());
-                                //iterSetAddress++;
+                            adress+=((*iterSetAddress)->getMemSize());
+                            //iterSetAddress++;
 
-                                //(adress + ((*iterSetAddress)->getMemSize()))
-                                if(adress!=((long)(*iterSetAddress)->getMemAdd())){
-                                    flagAdress=false;
-                                    break;
+                            //(adress + ((*iterSetAddress)->getMemSize()))
+                            if(adress!=((long)(*iterSetAddress)->getMemAdd())){
+                                flagAdress=false;
+                                break;
 
-                                }
-                                iterSetAddress++;
                             }
-
-                            if(flagAdress) {//nodes by orders
-                                FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
-                                fn=new (fnlloc)FreeNode(memSize,FirstNodeAtSet->getMemAdd());
-                                for (int i = 0; i < countNodes; ++i) {
-                                    iter->second.erase(iterSet++);//TODO mem leak
-                                }
-                                // _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
-
-                                break; //while break after merge
-                            }
-//                            else{
-//                                if(newSize==MIN_MEM_SIZE){
-//                                    newSize /= 2;
-//                                }
-//                            }
+                            iterSetAddress++;
                         }
-//                        else{
-//                            newSize /= 2;
-//                        }
 
+                        if(flagAdress) {//nodes by orders
+                            FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
+                            fn=new (fnlloc)FreeNode(memSize,FirstNodeAtSet->getMemAdd());
+                            for (int i = 0; i < countNodes; ++i) {
+                                iter->second.erase(iterSet++);//TODO mem leak
+                            }
+                            break; //while break after merge
+                        }
                     }
-               // }
+
+                }
             }
-//            else{
-//               newSize /= 2;
-//                countNodes*=2;
-//            }
+
 
         }
         countNodes*=2;
