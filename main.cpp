@@ -22,13 +22,13 @@ int main() {
     int* mm21=new int(35);int* mm22=new int(454);int* mm23=new int(434);
     double* mm31=new double(43.43);double* mm32=new double(434.43);double* mm33=new double(4375.5454);
 
-
+    cout<<(int)(mm22-mm23)<<endl;
 
 
     cout<<"Address mm12 is "<<(void*) mm12<<endl;
 
     //print allocated map
-    un_mapMem* allocatedMem=(mm->get_allocatedMem());
+      un_mapMem* allocatedMem=(mm->get_allocatedMem());
 
     ConsolePrinter::printMap(allocatedMem);
 
@@ -60,4 +60,5 @@ int main() {
     for (int j = 0; j <10 ; ++j) {
         cout<<" "<<arr[j];
     }
+
 }
