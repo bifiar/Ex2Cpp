@@ -69,13 +69,8 @@ char* BestFIt::canMerge(size_t memSize){
 
                 if (setSize != 0) {
                     if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
-
                         for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
-
                             adress+=((*iterSetAddress)->getMemSize());
-                            //iterSetAddress++;
-
-                            //(adress + ((*iterSetAddress)->getMemSize()))
                             if(adress!=((long)(*iterSetAddress)->getMemAdd())){
                                 flagAdress=false;
                                 break;
