@@ -3,6 +3,7 @@
 #include "MemoryManager.h"
 #include "sharedTypeDeffs.h"
 #include "BestFIt.h"
+#include "FirstFit.h"
 
 #define byte_size 8
 
@@ -17,7 +18,10 @@ int main() {
     FitAlgo* bestFitLoc = (FitAlgo*)malloc(sizeof(FitAlgo));
     FitAlgo* bestFit = new(bestFitLoc)BestFIt(mm->get_freeMap());
 
-    mm->set_strategy(bestFit);
+    FitAlgo* firstFitLoc = (FitAlgo*)malloc(sizeof(FitAlgo));
+    FitAlgo* firstFit = new(bestFitLoc)FirstFit(mm->get_freeMap());
+
+    mm->set_strategy(firstFit);
 
     int* arr=new int[10];
     for (int i = 0; i <10 ; ++i) {
