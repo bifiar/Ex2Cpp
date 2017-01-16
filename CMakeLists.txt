@@ -3,5 +3,5 @@ project(Ex2Cpp)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp MemPool.cpp MemPool.h MemoryManager.cpp MemoryManager.h FreeNode.cpp FreeNode.h Console.cpp Console.h OperatorOverride.cpp TypeDef.h)
+set(SOURCE_FILES main.cpp MemPool.cpp MemPool.h MemoryManager.cpp MemoryManager.h FreeNode.cpp FreeNode.h ConsolePrinter.cpp ConsolePrinter.h OperatorNewDelOver.cpp sharedTypeDeffs.h FitAlgo.h BestFIt.cpp BestFIt.h FirstFit.cpp FirstFit.h double_linked.cpp double_linked.h)
 add_executable(Ex2Cpp ${SOURCE_FILES})

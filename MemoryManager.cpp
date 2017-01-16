@@ -1,5 +1,5 @@
 //
-//Created by boaz_bahat on 1/2/17.
+// Created by ofir on 1/3/17.
 //
 
 #include <cmath>
@@ -10,11 +10,12 @@
 
 MemoryManager::MemoryManager(size_t size){
     _pool=MemPool::getInstance(size);
+    //NEED TO BE REMOVE
     un_mapMem * allocMemLoc=(un_mapMem *)malloc(sizeof(un_mapMem));
     _allocatedMem=new (allocMemLoc) un_mapMem();
     freeMapMem * freeMapLoc=(freeMapMem *)malloc(sizeof(freeMapMem));
     _freeMap=new (freeMapLoc) freeMapMem();
-   // _flagNew=false;
+    //NEED TO BE REMOVE END
 
 }
 
@@ -26,8 +27,13 @@ size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
 }
 
 char *MemoryManager::newMem(size_t memSizeBit) {
+
+
+
     size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normalize to 2^x
-    char* memToGive=getMemFromFreeList(sizeOnBits);//check if there is place on the free list
+
+    char* memToGive = _strategy->searchFreeMemAlgo(memSizeBit);
+
     if(!memToGive) {
         size_t bitInUse = _pool->get_totalBitUse();
         if (_pool->get_poolSize() < bitInUse + sizeOnBits) {// if out of memory
@@ -36,9 +42,11 @@ char *MemoryManager::newMem(size_t memSizeBit) {
              memToGive = _pool->get_currentLocation();
             _pool->set_currentLocation(memToGive + sizeOnBits);
             _pool->set_totalBitUse(bitInUse + sizeOnBits);
-            _allocatedMem->insert(make_pair(memToGive, sizeOnBits)); // save header on allocated mem
+
         }
     }
+        _allocatedMem->insert(make_pair(memToGive, sizeOnBits));
+
 
 
     return memToGive;
@@ -79,191 +87,17 @@ un_mapMem *MemoryManager::get_allocatedMem() {
 freeMapMem* MemoryManager::get_freeMap() {
     return _freeMap;
 }
-/*char *MemoryManager::getMemFromFreeList(size_t memSize) {
-    auto iter=_freeMap->find(memSize);
-    if ( iter ==_freeMap->end() ) {
-        // not found
-        return nullptr;
-    } else {
-        FreeNode* memFromFreeList=(*((iter->second).begin()));
-       char* mmAdd=memFromFreeList->getMemAdd();
-        (iter->second).erase(memFromFreeList);
-        _allocatedMem->insert(make_pair(mmAdd, memSize));
 
-       return mmAdd;
-    }
-}*/
-char *MemoryManager::getMemFromFreeList(size_t memSize) {
-
-    //if ( iter ==_freeMap->end() ) {
-    // not found - need to check if we can merge Nodes
-    char *mmAddress= nullptr;
-    mmAddress = canMerge(memSize);
-    if (mmAddress) {
-        return mmAddress;
-    } else {
-        auto iter=_freeMap->find(memSize);
-        if (iter !=_freeMap->end() ) {
-            FreeNode *memFromFreeList = (*((iter->second).begin()));
-            char *mmAdd = (*((iter->second).begin()))->getMemAdd();
-            (iter->second).erase(memFromFreeList);//TODO insert to allocMem
-            // _allocatedMem->insert(make_pair(mmAdd, memSize));
-            return mmAdd;
-        }
-        return nullptr;
-    }
-
-
+void MemoryManager::set_strategy(FitAlgo* _strategy) {
+    MemoryManager::_strategy = _strategy;
 }
-char* MemoryManager::canMerge(size_t memSize){
-    size_t newSize=memSize;
-    size_t countNodes=1;
-    //FreeNode* memNode= nullptr;
-    FreeNode* fn=nullptr;
-    while((newSize)>=MIN_MEM_SIZE) {
-        auto iter = _freeMap->find(newSize);
-        if (iter == _freeMap->end()) {
-            newSize /= 2;
-            countNodes*=2;
-        }else {
-           // auto iterForSplit=iter->second.begin();
-            FreeNode *FirstNodeAtSet = (*((iter->second).begin()));
-            if(FirstNodeAtSet!=nullptr) {
-                if (*((iter->second).begin())) {
-                    auto setSize = iter->second.size();
-                    auto iterSet = iter->second.begin();
-                    auto iterSetAddress = iter->second.begin();
-                    long adress = (long)(*iterSetAddress)->getMemAdd();//the first address in the set
-                    iterSetAddress++;
-                    bool flagAdress=true;
-
-                    if (setSize != 0) {
-                        if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
-
-                            for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
-
-                                adress+=((*iterSetAddress)->getMemSize());
-                                //iterSetAddress++;
-
-                                //(adress + ((*iterSetAddress)->getMemSize()))
-                                if(adress!=((long)(*iterSetAddress)->getMemAdd())){
-                                    flagAdress=false;
-                                    break;
-
-                                }
-                                iterSetAddress++;
-                            }
-
-                            if(flagAdress) {//nodes by orders
-                                FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
-                                fn=new (fnlloc)FreeNode(memSize,FirstNodeAtSet->getMemAdd());
-                                //memNode = new FreeNode(memSize, FirstNodeAtSet->getMemAdd());//TODO check new
-                                for (int i = 0; i < countNodes; ++i) {
-                                    iter->second.erase(iterSet++);
-                                }
-                               // _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
-
-                                break;
-                            }else{
-                                if(newSize==8){
-                                    newSize /= 2;
-                                }
-                            }
-                        }else{
-                            newSize /= 2;
-                        }
-
-                    }
-                }
-            }else{
-                newSize /= 2;
-                countNodes*=2;
-            }
-
-        }
-
-    }
-    if(fn!=nullptr){
-        return  fn->getMemAdd();
-    }else{
-        //check here for split!
-       return split(memSize);
-   }
-    //return nullptr;
-
-}
-
-char* MemoryManager::split(size_t memSize){
-    size_t newSize=memSize*2;
-    FreeNode* fn=nullptr;
-    while(true){
-        auto iter = _freeMap->find(newSize);
-         if (iter == _freeMap->end()) {
-             newSize*=2;
-         }else{//found!
-             FreeNode * FirstNodeAtSet = (*((iter->second).begin()));
-             if(FirstNodeAtSet!=nullptr) {
-                 FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
-                 fn=new (fnlloc)FreeNode(newSize,FirstNodeAtSet->getMemAdd());
-
-                 iter->second.erase(iter->second.begin()); // delet node!!
-                 return fn->getMemAdd();
-             }
-            break;
-         }
-    }
-
-
-
-   /*size_t newSize=memSize;
-    FreeNode* fn=nullptr;
-    auto iter = _freeMap->end();
-    //FreeNode *FirstNodeAtSet = (*((iter->second).begin()));
-
-    //auto iterSet = iter->second.end();
-    iter--;
-
-
-
-
-
-    size_t maxSize=0;
-    while (maxSize<newSize){
-        auto setSize = iter->second.size();
-        if(setSize==0){
-            iter--;
-        }else{
-         maxSize=setSize;
-           break;
-        }
-    }
-    while (newSize<=maxSize){
-        auto iter = _freeMap->find(newSize);
-        if (iter == _freeMap->end()) {
-            newSize*=2;
-        }else{ //found!
-            FreeNode * FirstNodeAtSet = (*((iter->second).begin()));
-            if(FirstNodeAtSet!=nullptr) {
-                FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
-                fn=new (fnlloc)FreeNode(newSize,FirstNodeAtSet->getMemAdd());
-
-                iter->second.erase(iter->second.begin()); // delet node!!
-                return fn->getMemAdd();
-            }else{
-                newSize*=2;
-            }
-        }
-    }
-return nullptr;*/
-}
-
-
-
 
 //initilize static members
 un_mapMem *MemoryManager::_allocatedMem= nullptr;
 freeMapMem *MemoryManager::_freeMap= nullptr;
 MemPool *MemoryManager::_pool=nullptr;
+FitAlgo *MemoryManager::_strategy=nullptr;
+
 
 
 

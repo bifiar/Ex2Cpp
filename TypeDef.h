@@ -1,6 +1,8 @@
 //
-//Created by boaz_bahat on 1/2/17.
+// Created by ofir on 1/11/17.
 //
+
+
 
 
 #include <utility>
@@ -10,17 +12,22 @@
 #include <map>
 #include <unordered_map>
 #include "MyAllocator.h"
+#include "FreeNode.h"
 
 
-class FreeNode;
-class FreeNodeCompAdd;
-
-
-#ifndef EX2CPP_TypeDef_H
-#define EX2CPP_TypeDef_H
+#ifndef EX2CPP_SHAREDTYPEDEFFS_H
+#define EX2CPP_SHAREDTYPEDEFFS_H
 using namespace JVC;
 using namespace std;
-#endif //EX2CPP_TypeDef_H
+
+struct FreeNodeCompAdd
+{
+    bool operator()(const FreeNode* lhs, const FreeNode* rhs) const  {
+        return (int)(lhs->getMemAdd() - rhs->getMemAdd()) < 0;
+    }
+};
+
+#endif //EX2CPP_SHAREDTYPEDEFFS_H
 
 typedef MyAllocator<FreeNode*> setAllocator;
 typedef set<FreeNode*,FreeNodeCompAdd,setAllocator> setForMap;
@@ -36,3 +43,4 @@ typedef unordered_map<char*,size_t,std::hash<char*>, std::equal_to<char*>,un_map
 typedef set<FreeNode*> simpleSet;
 typedef MyAllocator<std::pair<size_t, simpleSet>> simpleMapAllocator;
 typedef map<size_t ,simpleSet, std::less<size_t> , mapAllocator> simpleMapDeclare;
+

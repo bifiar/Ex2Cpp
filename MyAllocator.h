@@ -52,7 +52,10 @@ namespace JVC {
 
         void construct(pointer p, const T& val) {
             new((void *)p) T(val);
+
+
         }
+
 
         void destroy(pointer p) {
             p->~T();

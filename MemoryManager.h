@@ -1,5 +1,5 @@
 //
-//Created by boaz_bahat on 1/2/17.
+// Created by ofir on 1/3/17.
 //
 
 #ifndef EX2CPP_MEMORYMANAGER_H
@@ -13,7 +13,8 @@
 #include <set>
 #include <map>
 #include <iostream>
-#include "Console.h"
+#include "ConsolePrinter.h"
+#include "FitAlgo.h"
 
 
 class MemPool;
@@ -29,17 +30,18 @@ public:
 
     static freeMapMem *get_freeMap();
 
+    static void set_strategy(FitAlgo* _strategy);
+
 private:
 
+    static FitAlgo* _strategy;
     static un_mapMem* _allocatedMem;
     static freeMapMem* _freeMap;
     static MemPool* _pool;
-    static bool _flagNew;
 
-    static char* getMemFromFreeList(size_t memSize);
+   // static char* getMemFromFreeList(size_t memSize);
     static size_t normalizeTwoPower(size_t memSizeBit);
-    static char* canMerge(size_t memSize);
-    static char* split(size_t memSize);
+
 
 };
 
