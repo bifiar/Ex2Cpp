@@ -29,7 +29,6 @@ public:
 
 private:
     setForMap::iterator isAddressSequence(setForMap currentIter,size_t numOfNodes,int* isSuccess);
-    //static un_mapMem* _allocatedMem;
     freeMapMem* _freeMap;
 
 

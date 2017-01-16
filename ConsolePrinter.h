@@ -18,6 +18,7 @@ class ConsolePrinter {
 public:
     static void printMap(un_mapMem* allocatedMem);
     static void printMapSet(freeMapMem* freeMap);
+    static void valagrinPring(un_mapMem* allocatedMem);
 
 private:
 

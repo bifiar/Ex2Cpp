@@ -81,8 +81,8 @@ template<typename T>
 T double_linked<T>::pop_back()
 {
     if( empty() ){
-       return  NULL;
-        //throw("double_linked : list empty");
+      // return  NULL;
+        throw("double_linked : list empty");
         //std::cout<<"double_linked : list empty"<<std::endl;
     }
 
