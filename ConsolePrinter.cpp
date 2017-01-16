@@ -26,13 +26,13 @@ void ConsolePrinter::printMapSet(freeMapMem* freeMap) {
     }
 }
 
-void ConsolePrinter::valagrinPring(un_mapMem *allocatedMem) {
-    cout<<"there is "<<allocatedMem->size()<<"block in use"<<end;
+void ConsolePrinter::valgrindPrint(un_mapMem *allocatedMem) {
+    cout<<"valgrind:"<<endl;
+    cout<<"there is "<<(int)allocatedMem->size()<<" block in use"<<endl;
     cout<<"details:"<<endl;
-
     for (auto iter = allocatedMem->begin(); iter != allocatedMem->end(); iter++)
     {
-        cout << "Key: " <<(void*)iter->first <<" Value: " <<iter->second<< endl;
-    }
+        cout << "address " <<(void*)iter->first <<" size on bits: " <<iter->second<< endl;
+    };
 
 }
