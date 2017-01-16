@@ -27,5 +27,5 @@ void *operator new[](size_t s) throw(bad_alloc)
 }
 void operator delete[](void *p) throw()
 {
-    // TODO: implement
+    ::operator delete(p);
 }

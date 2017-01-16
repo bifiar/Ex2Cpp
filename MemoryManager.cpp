@@ -107,7 +107,7 @@ char *MemoryManager::getMemFromFreeList(size_t memSize) {
             FreeNode *memFromFreeList = (*((iter->second).begin()));
             char *mmAdd = (*((iter->second).begin()))->getMemAdd();
             (iter->second).erase(memFromFreeList);//TODO insert to allocMem
-             _allocatedMem->insert(make_pair(mmAdd, memSize));
+            // _allocatedMem->insert(make_pair(mmAdd, memSize));
             return mmAdd;
         }
         return nullptr;
@@ -126,6 +126,7 @@ char* MemoryManager::canMerge(size_t memSize){
             newSize /= 2;
             countNodes*=2;
         }else {
+           // auto iterForSplit=iter->second.begin();
             FreeNode *FirstNodeAtSet = (*((iter->second).begin()));
             if(FirstNodeAtSet!=nullptr) {
                 if (*((iter->second).begin())) {
@@ -137,7 +138,7 @@ char* MemoryManager::canMerge(size_t memSize){
                     bool flagAdress=true;
 
                     if (setSize != 0) {
-                        if (((*iterSet)->getMemSize()) * countNodes >= memSize) { //number of nodes are fine for merging
+                        if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
 
                             for (int j = 1; j <setSize ; ++j) {//check that address of nodes by order
 
@@ -151,7 +152,6 @@ char* MemoryManager::canMerge(size_t memSize){
 
                                 }
                                 iterSetAddress++;
-
                             }
 
                             if(flagAdress) {//nodes by orders
@@ -161,7 +161,7 @@ char* MemoryManager::canMerge(size_t memSize){
                                 for (int i = 0; i < countNodes; ++i) {
                                     iter->second.erase(iterSet++);
                                 }
-                                _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
+                               // _allocatedMem->insert(make_pair(FirstNodeAtSet->getMemAdd(), memSize));
 
                                 break;
                             }else{
@@ -169,6 +169,8 @@ char* MemoryManager::canMerge(size_t memSize){
                                     newSize /= 2;
                                 }
                             }
+                        }else{
+                            newSize /= 2;
                         }
 
                     }
@@ -179,13 +181,85 @@ char* MemoryManager::canMerge(size_t memSize){
             }
 
         }
+
     }
     if(fn!=nullptr){
         return  fn->getMemAdd();
-    }
-    return nullptr;
+    }else{
+        //check here for split!
+       return split(memSize);
+   }
+    //return nullptr;
 
 }
+
+char* MemoryManager::split(size_t memSize){
+    size_t newSize=memSize*2;
+    FreeNode* fn=nullptr;
+    while(true){
+        auto iter = _freeMap->find(newSize);
+         if (iter == _freeMap->end()) {
+             newSize*=2;
+         }else{//found!
+             FreeNode * FirstNodeAtSet = (*((iter->second).begin()));
+             if(FirstNodeAtSet!=nullptr) {
+                 FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
+                 fn=new (fnlloc)FreeNode(newSize,FirstNodeAtSet->getMemAdd());
+
+                 iter->second.erase(iter->second.begin()); // delet node!!
+                 return fn->getMemAdd();
+             }
+            break;
+         }
+    }
+
+
+
+   /*size_t newSize=memSize;
+    FreeNode* fn=nullptr;
+    auto iter = _freeMap->end();
+    //FreeNode *FirstNodeAtSet = (*((iter->second).begin()));
+
+    //auto iterSet = iter->second.end();
+    iter--;
+
+
+
+
+
+    size_t maxSize=0;
+    while (maxSize<newSize){
+        auto setSize = iter->second.size();
+        if(setSize==0){
+            iter--;
+        }else{
+         maxSize=setSize;
+           break;
+        }
+    }
+    while (newSize<=maxSize){
+        auto iter = _freeMap->find(newSize);
+        if (iter == _freeMap->end()) {
+            newSize*=2;
+        }else{ //found!
+            FreeNode * FirstNodeAtSet = (*((iter->second).begin()));
+            if(FirstNodeAtSet!=nullptr) {
+                FreeNode* fnlloc=(FreeNode*)malloc(sizeof(FreeNode));
+                fn=new (fnlloc)FreeNode(newSize,FirstNodeAtSet->getMemAdd());
+
+                iter->second.erase(iter->second.begin()); // delet node!!
+                return fn->getMemAdd();
+            }else{
+                newSize*=2;
+            }
+        }
+    }
+return nullptr;*/
+}
+
+
+
+
 //initilize static members
 un_mapMem *MemoryManager::_allocatedMem= nullptr;
 freeMapMem *MemoryManager::_freeMap= nullptr;

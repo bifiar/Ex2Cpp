@@ -14,17 +14,21 @@ int main() {
     MemoryManager* mem=(MemoryManager*)malloc(sizeof(MemoryManager));
     MemoryManager* mm=new (mem) MemoryManager(100000);
 
-//    int* arr=new int[10];
-//    for (int i = 0; i <10 ; ++i) {
-//        arr[i]=pow(2.0,i);
-//    }
+    int* arr=new int[10];
+   for (int i = 0; i <10 ; ++i) {
+       arr[i]=pow(2.0,i);
+   }
+   // delete[] arr;
 
-    char* mm11=new char('3');char* mm12=new char('A');char* mm13=new char('a');
-    char* mm21=new char('6');
-    int* mm22=new int(16);int* mm23=new int(16); double* mm31=new double(43.43);
+
+    //char* mm11=new char('3');//char* mm12=new char('A');char* mm13=new char('a');
+   char* mm21=new char('6');
+    int* mm22=new int(16);
+    //int* mm23=new int(16);
+    //double* mm31=new double(43.43);
 //    double* mm31=new double(43.43);double* mm32=new double(434.43);double* mm33=new double(4375.5454);
     //cout<<(int)(mm22-mm23)<<endl;
-    cout<<"Address mm12 is "<<(void*) mm12<<endl;
+   // cout<<"Address mm12 is "<<(void*) mm12<<endl;
 
     //print allocated map
     un_mapMem* allocatedMem=(mm->get_allocatedMem());
@@ -32,7 +36,8 @@ int main() {
     Console::printMap(allocatedMem);
 
     //delete mm12;delete mm22;delete mm32;
-    delete mm22;delete mm23;delete mm11;delete mm12;//delete mm31;
+    delete mm21;delete mm22;
+    delete []arr;//delete mm12;//delete mm31;
 
 
     cout<<"after deleting.... "<<endl;
@@ -44,13 +49,13 @@ int main() {
     cout<<"alloc map before"<<endl;
     Console::printMap(allocatedMem);
     //char* mm7=new char;
-    char* mm7=new char('32.9');
+   double* mm31=new double(43.43);
     /*cout<<"after adding memo from free map(mm3)"<<endl;
     cout<<"Free MAP"<<endl;
     Console::printMapSet(freeMap);*/
     cout<<"Alloc MAP after"<<endl;
     Console::printMap(allocatedMem);
-    cout<<"Address mm7 is "<<(void*) mm7<<endl;
+    cout<<"Address mm7 is "<<(void*) mm31<<endl;
     cout<<"Free MAP"<<endl;
 
     Console::printMapSet(freeMap);
