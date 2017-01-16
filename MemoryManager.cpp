@@ -8,6 +8,9 @@
 #include "MemPool.h"
 
 
+/**
+   *MemoryManager constructor
+   */
 MemoryManager::MemoryManager(size_t size){
     _pool=MemPool::getInstance(size);
     //NEED TO BE REMOVE
@@ -19,6 +22,10 @@ MemoryManager::MemoryManager(size_t size){
 
 }
 
+/**
+  *this function is for normalize
+   * @param memSizeBit
+  */
 size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
     if(memSizeBit<=MIN_MEM_SIZE){
         return MIN_MEM_SIZE;
@@ -26,9 +33,12 @@ size_t MemoryManager::normalizeTwoPower(size_t memSizeBit) {
     return (size_t)pow(POW_BASE,ceil(log2(memSizeBit)));
 }
 
+/**
+   *this function is for create new node on memory
+    * @param memSizeBit
+    * @return address
+   */
 char *MemoryManager::newMem(size_t memSizeBit) {
-
-
 
     size_t sizeOnBits=normalizeTwoPower(memSizeBit);// normalize to 2^x
 
@@ -51,6 +61,11 @@ char *MemoryManager::newMem(size_t memSizeBit) {
 
     return memToGive;
 }
+
+/**
+    *this function is for create delete node on memory
+     * @param add
+    */
 void MemoryManager::deleteMem(char *add) {//TODO Memory leak
     size_t elemSize=0;
     char* toDelete= nullptr;

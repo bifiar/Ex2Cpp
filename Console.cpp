@@ -7,6 +7,10 @@
 #include <iostream>
 using namespace std;
 
+/**
+*this function print the allocated memory list
+* @param allocatedMem
+*/
 void Console::printMap(un_mapMem* allocatedMem) {
     for (auto iter = allocatedMem->begin(); iter != allocatedMem->end(); iter++)
     {
@@ -15,6 +19,10 @@ void Console::printMap(un_mapMem* allocatedMem) {
 
 }
 
+/**
+*this function print the free memory list
+* @param freeMap
+*/
 void Console::printMapSet(freeMapMem* freeMap) {
     for (auto iter= freeMap->begin(); iter != freeMap->end(); iter++)
     {

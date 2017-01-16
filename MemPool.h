@@ -9,11 +9,28 @@
 class MemPool {
 
 public:
+    /**
+    *this function is for create a MemPool singelton
+     * @param poolSize
+    */
     static MemPool* getInstance(size_t poolSize);
+
     static MemPool* getInstance();
     size_t  get_totalBitUse() const;
+
+    /**
+   *this function is for get current adderess
+     * @return address
+   */
     char *get_currentLocation() const;
+
+    /**
+ *this function is for set the size of bites in use
+   * @param _totalBitUse
+ */
     void set_totalBitUse(size_t _totalBitUse);
+
+
     void set_currentLocation(char *_currentLocation);
     size_t get_poolSize() const;
 

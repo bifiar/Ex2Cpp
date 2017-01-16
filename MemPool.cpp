@@ -8,11 +8,18 @@
 #include <iostream>
 
 using namespace std;
+/**
+  *MemPool constructor
+  */
 MemPool::MemPool(size_t poolSize) : _totalBitUse(0),_poolSize(poolSize) {
     _pool=(char*) malloc(poolSize);
     _currentLocation=_pool;
 }
 
+/**
+   *this function is for create a MemPool singelton
+    * @param poolSize
+   */
 MemPool *MemPool::getInstance(size_t poolSize) {
     if(!_memPoolInstance){
         MemPool* mem=(MemPool*)malloc(sizeof(MemPool));
@@ -25,14 +32,25 @@ MemPool *MemPool::getInstance(size_t poolSize) {
     return _memPoolInstance;
 }
 
+/**
+*this function is for get the size of bites in use
+* @return _totalBitUse
+*/
 size_t MemPool::get_totalBitUse() const {
     return _totalBitUse;
 }
-
+/**
+ *this function is for get current adderess
+   * @return address
+ */
 char *MemPool::get_currentLocation() const {
     return _currentLocation;
 }
 
+/**
+*this function is for set the size of bites in use
+* @param _totalBitUse
+*/
 void MemPool::set_totalBitUse(size_t _totalBitUse) {
     MemPool::_totalBitUse = _totalBitUse;
 }

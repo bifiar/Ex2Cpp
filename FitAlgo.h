@@ -11,6 +11,12 @@
 class FitAlgo {
 
 public:
+
+    /**
+    *this function is to check if there is free memory on freeMap, and  which algorithm  to use
+     * @return memSizeBit
+    * @return address
+    */
     virtual char* searchFreeMemAlgo(size_t memSizeBit)=0;
 };
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "MemoryManager.h"
-#include "sharedTypeDeffs.h"
+#include "TypeDef.h"
 #include "BestFIt.h"
 #include "FirstFit.h"
 #include "double_linked.h"
@@ -29,21 +29,21 @@ int main() {
     char* mm21=new char('3');char* mm22=new char('A');char* mm23=new char('a');
     char* mm31=new char('3');char* mm32=new char('A');char* mm33=new char('a');int* mm93=new int(44);
     cout<<"allocMap "<<endl;
-    ConsolePrinter::printMap(allocatedMem);
+    Console::printMap(allocatedMem);
 
     delete mm11; delete mm12; delete mm13;
     delete mm21;delete mm22;delete mm23;
     delete mm31;
     cout<<"free Map "<<endl;
-    ConsolePrinter::printMapSet(freeMap);
+    Console::printMapSet(freeMap);
 
 
     int* num11=new int(4334);
 
     cout<<"allocMap "<<endl;
-    ConsolePrinter::printMap(allocatedMem);
+    Console::printMap(allocatedMem);
     cout<<"free Map "<<endl;
-    ConsolePrinter::printMapSet(freeMap);
+    Console::printMapSet(freeMap);
 
 //   char* mm11=new char('3');char* mm12=new char('A');char* mm13=new char('a');
 //    int* mm21=new int(35);int* mm22=new int(454);int* mm23=new int(434);
@@ -54,23 +54,23 @@ int main() {
 //    //print allocated map
 //    un_mapMem* allocatedMem=(mm->get_allocatedMem());
 //
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //
 //    delete mm12;delete mm22;delete mm32;
 //
 //    cout<<"after deleting.... "<<endl;
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //    freeMapMem* freeMap=mm->get_freeMap();
 //    cout<<"free map:"<<endl;
 //    //print freelist map
-//    ConsolePrinter::printMapSet(freeMap);
+//    Console::printMapSet(freeMap);
 //
 //    char* mm7=new char;
 //    cout<<"after adding memo from free map(mm3)"<<endl;
 //    cout<<"Free MAP"<<endl;
-//    ConsolePrinter::printMapSet(freeMap);
+//    Console::printMapSet(freeMap);
 //    cout<<"Alloc MAP"<<endl;
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //    cout<<"Address mm7 is "<<(void*) mm7<<endl;
 //
 //    *mm11='C';*mm12='H';
@@ -95,7 +95,7 @@ int main() {
 //    dlist->push_front( 100 );
 //
 //    un_mapMem* allocatedMem=(mm->get_allocatedMem());
-//   ConsolePrinter::printMap(allocatedMem);
+//   Console::printMap(allocatedMem);
 
 
 
@@ -118,23 +118,23 @@ int main() {
 //    //print allocated map
 //    un_mapMem* allocatedMem=(mm->get_allocatedMem());
 //
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //
 //    delete mm12;delete mm22;delete mm32;
 //
 //    cout<<"after deleting.... "<<endl;
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //    freeMapMem* freeMap=mm->get_freeMap();
 //    cout<<"free map:"<<endl;
 //    //print freelist map
-//    ConsolePrinter::printMapSet(freeMap);
+//    Console::printMapSet(freeMap);
 //
 //    char* mm7=new char;
 //    cout<<"after adding memo from free map(mm3)"<<endl;
 //    cout<<"Free MAP"<<endl;
-//    ConsolePrinter::printMapSet(freeMap);
+//    Console::printMapSet(freeMap);
 //    cout<<"Alloc MAP"<<endl;
-//    ConsolePrinter::printMap(allocatedMem);
+//    Console::printMap(allocatedMem);
 //    cout<<"Address mm7 is "<<(void*) mm7<<endl;
 //
 //    *mm11='C';*mm12='H';

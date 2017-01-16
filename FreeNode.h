@@ -12,12 +12,20 @@
 class FreeNode {
 
 public:
+    /**
+    *FreeNode constructor
+    */
     FreeNode(size_t memSize, char *memAdd);
-
+    /**
+       *defult  constructor
+       */
     FreeNode();
 
     size_t getMemSize() const;
 
+    /**
+       *@return address
+       */
     char *getMemAdd() const;
 
     friend std::ostream &operator<<(std::ostream &os, const FreeNode &node);

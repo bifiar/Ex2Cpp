@@ -6,10 +6,16 @@
 
 FreeNode::FreeNode(size_t memSize, char *memAdd) : memSize(memSize), memAdd(memAdd) {}
 
+/**
+   *FreeNode constructor
+   */
 size_t FreeNode::getMemSize() const {
     return memSize;
 }
 
+/**
+       *@return address
+       */
 char *FreeNode::getMemAdd() const {
     return memAdd;
 }

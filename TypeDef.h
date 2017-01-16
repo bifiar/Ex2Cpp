@@ -15,8 +15,8 @@
 #include "FreeNode.h"
 
 
-#ifndef EX2CPP_SHAREDTYPEDEFFS_H
-#define EX2CPP_SHAREDTYPEDEFFS_H
+#ifndef EX2CPP_TypeDef_H
+#define EX2CPP_TypeDef_H
 using namespace JVC;
 using namespace std;
 
@@ -27,7 +27,7 @@ struct FreeNodeCompAdd
     }
 };
 
-#endif //EX2CPP_SHAREDTYPEDEFFS_H
+#endif //EX2CPP_TypeDef_H
 
 typedef MyAllocator<FreeNode*> setAllocator;
 typedef set<FreeNode*,FreeNodeCompAdd,setAllocator> setForMap;

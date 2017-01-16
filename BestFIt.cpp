@@ -5,28 +5,30 @@
 #include <cmath>
 #include "BestFIt.h"
 
-BestFIt::BestFIt(freeMapMem* freeMap):_freeMap(freeMap) {}
-
 /**
- *
- * @return
- */
+*BestFIt constructor
+*/
+BestFIt::BestFIt(freeMapMem* freeMap):_freeMap(freeMap) {}
+/**
+*get freeMap list
+* @return _freeMap
+*/
 freeMapMem *BestFIt::get_freeMap() {
     return _freeMap;
 }
 
 /**
- *
- * @param _freeMap
- */
+    *set freeMap in _freeMap
+    * @param _freeMap
+    */
 void BestFIt::set_freeMap(freeMapMem *_freeMap) {
     BestFIt::_freeMap = _freeMap;
 }
 /**
- *
- * @param memSizeBit
- * @return
- */
+  *implement function from fitAlgo that check if there is free memory on freeMap
+   * * @return memSizeBit
+  * @return address
+  */
 char *BestFIt::searchFreeMemAlgo(size_t memSizeBit) {
     auto iter=_freeMap->find(memSizeBit);
     if ( iter ==_freeMap->end() ) {
@@ -41,10 +43,10 @@ char *BestFIt::searchFreeMemAlgo(size_t memSizeBit) {
 }
 
 /**
- *
- * @param memSize
- * @return
- */
+*this function check if you can merge freeNodes on freeMap before allocated
+* @param memSize
+* @return addressToAlloc
+*/
 char* BestFIt::canMerge(size_t memSize){
     char* addressToAlloc= nullptr;
     auto currentIter=_freeMap->begin();
@@ -69,7 +71,11 @@ char* BestFIt::canMerge(size_t memSize){
     }
     return addressToAlloc;
 }
-
+/**
+  *this function check if nodes address is by order for merge
+  * @param memSize
+  * @return  setForMap::iterator
+  */
 setForMap::iterator BestFIt::isAddressSequence(setForMap currentSet, size_t numOfNodes,int* isSuccess) {
     size_t sizeLeft=currentSet.size();
     if(sizeLeft==0) {return currentSet.end();}
@@ -97,66 +103,4 @@ setForMap::iterator BestFIt::isAddressSequence(setForMap currentSet, size_t numO
     }
     return currentSet.end();
 }
-//char *MemoryManager::getMemFromFreeList(size_t memSize) {
-//
-//    //if ( iter ==_freeMap->end() ) {
-//    // not found - need to check if we can merge Nodes
-//    char *mmAddress= nullptr;
-//    mmAddress = canMerge(memSize);
-//    if (mmAddress) {
-//        return mmAddress;
-//    } else {
-//        auto iter=_freeMap->find(memSize);
-//        if (iter !=_freeMap->end() ) {
-//            FreeNode memFromFreeList = (((iter->second).begin()));
-//            char mmAdd = (((iter->second).begin()))->getMemAdd();
-//            (iter->second).erase(memFromFreeList);//TODO insert to allocMem
-//            // _allocatedMem->insert(make_pair(mmAdd, memSize));
-//            return mmAdd;
-//        }
-//        return nullptr;
-//    }
-//
-//
-//}
 
-
-//
-//
-//
-//
-//            FreeNode *FirstNodeAtSet = (*((currentIter->second).begin()));
-//            if (FirstNodeAtSet != nullptr) {
-//                size_t setSize = iter->second.size();
-//                auto iterSet = iter->second.begin();
-//                auto iterSetAddress = iter->second.begin();
-//                long adress = (long) (*iterSetAddress)->getMemAdd();//the first address in the set
-//                iterSetAddress++;
-//                bool flagAdress = true;
-//                if (setSize != 0) {
-//                    if (((*iterSet)->getMemSize()) * setSize >= memSize) { //number of nodes are fine for merging
-//
-//                        for (int j = 1; j < setSize; ++j) {//check that address of nodes by order
-//                            adress += ((*iterSetAddress)->getMemSize());
-//                            if (adress != ((long) (*iterSetAddress)->getMemAdd())) {
-//                                flagAdress = false;
-//                                break;
-//                            }
-//                            iterSetAddress++;
-//                        }
-//                        if (flagAdress) {//nodes by orders
-//                            FreeNode *fnlloc = (FreeNode *) malloc(sizeof(FreeNode));
-//                            fn = new(fnlloc)FreeNode(memSize, FirstNodeAtSet->getMemAdd());
-//                            for (int i = 0; i < countNodes; ++i) {
-//                                iter->second.erase(iterSet++);//TODO mem leak
-//                            }
-//                            break; //while break after merge
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        countNodes*=2;
-//        newSize /= 2;

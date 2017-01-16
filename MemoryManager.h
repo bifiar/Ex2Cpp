@@ -13,7 +13,7 @@
 #include <set>
 #include <map>
 #include <iostream>
-#include "ConsolePrinter.h"
+#include "Console.h"
 #include "FitAlgo.h"
 
 
@@ -22,14 +22,35 @@ class FreeNode;
 using namespace std;
 class MemoryManager {
 public:
+    /**
+    *MemoryManager constructor
+    */
     MemoryManager(size_t size);
+
+    /**
+    *this function is for create new node on memory
+     * @param memSizeBit
+     * @return address
+    */
     static char* newMem(size_t memSizeBit);
+
+/**
+    *this function is for create delete node on memory
+     * @param add
+    */
     static void deleteMem(char* add);
+
+
 
     static un_mapMem* get_allocatedMem();
 
     static freeMapMem *get_freeMap();
 
+
+/**
+    *this function is for strategy patterns to know which algo to use
+     * @param FitAlgo* _strategy
+    */
     static void set_strategy(FitAlgo* _strategy);
 
 private:
@@ -40,6 +61,11 @@ private:
     static MemPool* _pool;
 
    // static char* getMemFromFreeList(size_t memSize);
+
+    /**
+    *this function is for normalize
+     * @param memSizeBit
+    */
     static size_t normalizeTwoPower(size_t memSizeBit);
 
 

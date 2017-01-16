@@ -7,8 +7,13 @@
 
 
 #include <iostream>
+
+
 using namespace std;
 
+/**
+*template <typename T> of double linked list
+*/
 template <typename T>
 class double_linked
 {
